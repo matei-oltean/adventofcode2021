@@ -14,12 +14,7 @@ To create a new package:
 cargo new day_x
 ```
 
-```toml
-[dependencies]
-reader = { path = "../reader" }
-```
-
-Should then be added to `day_x/Cargo.tml` and `day_x` should be added to the `members` list of the root `Cargo.toml` file.
+`day_x` should be added to the `members` list of the root `Cargo.toml` file.
 
 ### Running the solutions
 
