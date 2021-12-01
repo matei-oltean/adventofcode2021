@@ -4,13 +4,7 @@ fn compute_gap(depths: &Vec<i32>, gap: usize) -> i32 {
     depths
         .iter()
         .enumerate()
-        .map(|(i, val)| {
-            if i < depths.len() - gap && val < &depths[i + gap] {
-                1
-            } else {
-                0
-            }
-        })
+        .map(|(i, val)| (i < depths.len() - gap && val < &depths[i + gap]) as i32)
         .sum()
 }
 
