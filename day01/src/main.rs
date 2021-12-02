@@ -9,7 +9,7 @@ fn compute_gap(depths: &Vec<i32>, gap: usize) -> i32 {
 }
 
 fn main() {
-    let depths: Vec<i32> = fs::read_to_string("./input/day01.input")
+    let depths: Vec<i32> = fs::read_to_string("./input/01")
         .unwrap()
         .trim()
         .lines()
