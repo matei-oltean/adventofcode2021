@@ -1,36 +1,20 @@
 use std::fs;
 
-fn get_position(commands: &Vec<String>) -> i32 {
-    let mut pos = (0, 0);
-    commands.iter().for_each(|s| {
+fn get_position(commands: &Vec<String>, with_aim: bool) -> i32 {
+    let pos = commands.iter().fold((0, 0, 0), |(x, y, a), s| {
         let command: Vec<String> = s.split(' ').map(|s| s.to_string()).collect();
-        let distance: i32 = command[1].parse().unwrap();
+        let d: i32 = command[1].parse().unwrap();
         match command[0].as_str() {
-            "forward" => pos.0 += distance,
-            "up" => pos.1 -= distance,
-            "down" | _ => pos.1 += distance,
+            "forward" => (x + d, y + d * a, a),
+            "up" => (x, y, a - d),
+            "down" | _ => (x, y, a + d),
         }
     });
-
-    pos.0 * pos.1
-}
-
-fn get_with_aim(commands: &Vec<String>) -> i32 {
-    let mut pos = (0, 0, 0);
-    commands.iter().for_each(|s| {
-        let command: Vec<String> = s.split(' ').map(|s| s.to_string()).collect();
-        let distance: i32 = command[1].parse().unwrap();
-        match command[0].as_str() {
-            "forward" => {
-                pos.0 += distance;
-                pos.1 += distance * pos.2
-            }
-            "up" => pos.2 -= distance,
-            "down" | _ => pos.2 += distance,
-        }
-    });
-
-    pos.0 * pos.1
+    if with_aim {
+        pos.0 * pos.1
+    } else {
+        pos.0 * pos.2
+    }
 }
 
 fn main() {
@@ -40,6 +24,6 @@ fn main() {
         .lines()
         .map(|s| s.to_string())
         .collect();
-    println!("{}", get_position(&commands));
-    println!("{}", get_with_aim(&commands));
+    println!("{}", get_position(&commands, false));
+    println!("{}", get_position(&commands, true));
 }
