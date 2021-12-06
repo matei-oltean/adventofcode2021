@@ -1,19 +1,11 @@
 use std::fs;
 
-fn num_of_fish(starting: &mut Vec<isize>, iterations: isize) -> isize {
+fn num_of_fish(ages: &mut Vec<isize>, iterations: isize) -> isize {
     for _ in 0..iterations {
-        let mut cur = vec![0; 9];
-        starting.iter().enumerate().for_each(|(age, count)| {
-            if age == 0 {
-                cur[6] += count;
-                cur[8] += count
-            } else {
-                cur[age - 1] += count;
-            }
-        });
-        *starting = cur;
+        ages.rotate_left(1);
+        ages[6] += ages[8];
     }
-    starting.iter().sum()
+    ages.iter().sum()
 }
 
 fn main() {
