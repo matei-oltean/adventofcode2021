@@ -6,7 +6,7 @@ fn min_fuel(
     dist: fn(isize, isize) -> isize,
 ) -> isize {
     targets
-        .map(|m| depths.iter().fold(0, |s, &crab| s + dist(m, crab)))
+        .map(|m| depths.iter().map(|&crab| dist(m, crab)).sum())
         .min()
         .unwrap()
 }
