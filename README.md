@@ -21,3 +21,7 @@ cargo new day_x
 ```bash
 cargo run -p day_x
 ```
+
+### Running clippy on the code
+
+Run `cargo clippy --fix --allow-dirty` to fix clippy issues in the code.

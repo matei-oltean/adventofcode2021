@@ -1,6 +1,6 @@
 use std::{fs, isize};
 
-fn val_from_string(bin: &Vec<isize>, cmp: fn(isize) -> bool) -> isize {
+fn val_from_string(bin: &[isize], cmp: fn(isize) -> bool) -> isize {
     isize::from_str_radix(
         bin.iter()
             .map(|&x| if cmp(x) { '1' } else { '0' })
@@ -11,7 +11,7 @@ fn val_from_string(bin: &Vec<isize>, cmp: fn(isize) -> bool) -> isize {
     .unwrap()
 }
 
-fn get_majority(report: &Vec<Vec<isize>>) -> Vec<isize> {
+fn get_majority(report: &[Vec<isize>]) -> Vec<isize> {
     let mut majorities: Vec<isize> = vec![0; report[0].len()];
     report.iter().for_each(|line| {
         line.iter()
@@ -21,12 +21,12 @@ fn get_majority(report: &Vec<Vec<isize>>) -> Vec<isize> {
     majorities
 }
 
-fn gamma_epsilon(report: &Vec<Vec<isize>>) -> isize {
+fn gamma_epsilon(report: &[Vec<isize>]) -> isize {
     let majority = get_majority(report);
     val_from_string(&majority, |x| x >= 0) * val_from_string(&majority, isize::is_negative)
 }
 
-fn highlander(report: &Vec<Vec<isize>>, cmp: fn(isize) -> bool) -> isize {
+fn highlander(report: &[Vec<isize>], cmp: fn(isize) -> bool) -> isize {
     let mut cur: Vec<usize> = (0..report.len()).collect();
     let mut i = 0;
     while cur.len() > 1 {

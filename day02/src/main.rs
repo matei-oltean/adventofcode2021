@@ -1,6 +1,6 @@
 use std::fs;
 
-fn get_position(commands: &Vec<String>, with_aim: bool) -> i32 {
+fn get_position(commands: &[String], with_aim: bool) -> i32 {
     let (x, y, a) = commands.iter().fold((0, 0, 0), |(x, y, a), s| {
         let command: Vec<String> = s.split(' ').map(|s| s.to_string()).collect();
         let d: i32 = command[1].parse().unwrap();

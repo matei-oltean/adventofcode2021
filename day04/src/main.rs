@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use std::fs;
 
-fn bingo(input: &Vec<String>) -> (usize, usize) {
+fn bingo(input: &[String]) -> (usize, usize) {
     let mut first: usize = 0;
     let mut lines = input.iter();
     let mut boards: Vec<Vec<usize>> = Vec::new();
@@ -44,8 +44,8 @@ fn bingo(input: &Vec<String>) -> (usize, usize) {
             {
                 continue;
             }
-            if to_ignore.len() == 0 || to_ignore.len() == boards.len() - 1 {
-                let res = num * board.iter().filter(|v| !drawn.contains(&v)).sum::<usize>();
+            if to_ignore.is_empty() || to_ignore.len() == boards.len() - 1 {
+                let res = num * board.iter().filter(|v| !drawn.contains(v)).sum::<usize>();
                 if first > 0 {
                     return (first, res);
                 }
@@ -57,7 +57,7 @@ fn bingo(input: &Vec<String>) -> (usize, usize) {
     (0, 0)
 }
 
-fn check_board(position: usize, board: &Vec<usize>, drawn: &HashSet<usize>) -> bool {
+fn check_board(position: usize, board: &[usize], drawn: &HashSet<usize>) -> bool {
     (0..5).all(|s| drawn.contains(&board[position % 5 + 5 * s]))
         || (0..5).all(|s| drawn.contains(&board[(position / 5) * 5 + s]))
 }

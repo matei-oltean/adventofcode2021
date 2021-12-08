@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use std::fs;
 
-fn count_unique(nums: &Vec<Vec<String>>) -> isize {
+fn count_unique(nums: &[Vec<String>]) -> isize {
     nums.iter()
         .map(|patterns| {
             patterns.iter().fold(0, |s, x| match x.len() {
@@ -45,34 +45,27 @@ fn decode(inputs: &HashSet<String>) -> HashMap<String, char> {
             .difference(&int_to_str[&'1'])
             .copied()
             .collect();
-        if four_diff_one.intersection(&num).collect::<Vec<_>>().len() == 2 {
+        if four_diff_one.intersection(&num).count() == 2 {
             str_to_int.insert(x.to_string(), if x.len() == 6 { '6' } else { '5' });
             return;
         }
         if x.len() == 6 {
             str_to_int.insert(x.to_string(), '0');
+        } else if int_to_str[&'1'].intersection(&num).count() == 2 {
+            str_to_int.insert(x.to_string(), '3');
         } else {
-            if int_to_str[&'1']
-                .intersection(&num)
-                .collect::<Vec<_>>()
-                .len()
-                == 2
-            {
-                str_to_int.insert(x.to_string(), '3');
-            } else {
-                str_to_int.insert(x.to_string(), '2');
-            }
+            str_to_int.insert(x.to_string(), '2');
         }
     });
     str_to_int
 }
 
-fn find_res(inputs: &Vec<HashSet<String>>, outputs: &Vec<Vec<String>>) -> isize {
+fn find_res(inputs: &[HashSet<String>], outputs: &[Vec<String>]) -> isize {
     outputs
         .iter()
         .zip(inputs.iter())
         .map(|(out, inp)| {
-            let dec = decode(&inp);
+            let dec = decode(inp);
             String::from_iter(out.iter().map(|s| dec[s]))
                 .parse::<isize>()
                 .unwrap()
@@ -82,7 +75,7 @@ fn find_res(inputs: &Vec<HashSet<String>>, outputs: &Vec<Vec<String>>) -> isize 
 
 fn sort_and_return_string(string: &str) -> String {
     let mut chars: Vec<_> = string.chars().collect();
-    chars.sort();
+    chars.sort_unstable();
     String::from_iter(chars)
 }
 

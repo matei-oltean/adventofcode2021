@@ -2,7 +2,7 @@ use std::cmp::max;
 use std::collections::HashMap;
 use std::fs;
 
-fn num_intersect(positions: &Vec<String>, with_diag: bool) -> i32 {
+fn num_intersect(positions: &[String], with_diag: bool) -> i32 {
     let mut map: HashMap<(i32, i32), i32> = HashMap::new();
     positions
         .iter()
@@ -22,7 +22,7 @@ fn num_intersect(positions: &Vec<String>, with_diag: bool) -> i32 {
                 .map(|i| {
                     let pos = (x0 + i * dx, y0 + i * dy);
                     let count = map.get_mut(&pos);
-                    return match count {
+                    match count {
                         Some(c) => {
                             *c += 1;
                             (c == &1) as i32
@@ -31,7 +31,7 @@ fn num_intersect(positions: &Vec<String>, with_diag: bool) -> i32 {
                             map.insert(pos, 0);
                             0
                         }
-                    };
+                    }
                 })
                 .sum()
         })

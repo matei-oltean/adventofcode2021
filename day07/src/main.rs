@@ -1,7 +1,7 @@
 use std::fs;
 
 fn min_fuel(
-    depths: &Vec<isize>,
+    depths: &[isize],
     targets: impl Iterator<Item = isize>,
     dist: fn(isize, isize) -> isize,
 ) -> isize {
@@ -18,7 +18,7 @@ fn main() {
         .split(',')
         .map(|s| s.parse().unwrap())
         .collect();
-    depths.sort();
+    depths.sort_unstable();
     println!(
         "{}",
         min_fuel(

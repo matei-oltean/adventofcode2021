@@ -1,6 +1,6 @@
 use std::fs;
 
-fn compute_gap(depths: &Vec<i32>, gap: usize) -> i32 {
+fn compute_gap(depths: &[i32], gap: usize) -> i32 {
     depths
         .iter()
         .enumerate()
