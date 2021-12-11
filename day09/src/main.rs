@@ -45,10 +45,8 @@ fn basin(depths: &[Vec<u32>]) -> u32 {
             [(x0, y0 + 1), (x0, y0 - 1), (x0 + 1, y0), (x0 - 1, y0)]
                 .iter()
                 .for_each(|(x, y)| {
-                    if x < &0
-                        || *x == depths.len().try_into().unwrap()
-                        || y < &0
-                        || *y == line_len.try_into().unwrap()
+                    if !(0..depths.len() as isize).contains(x)
+                        || !(0..line_len as isize).contains(y)
                     {
                         return;
                     }
