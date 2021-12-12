@@ -1,12 +1,11 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fs;
 
 fn num_path(
     node: String,
     graph: &HashMap<String, Vec<String>>,
-    small: HashMap<String, usize>,
+    small: HashSet<String>,
     twice_allowed: bool,
-    second: Option<String>,
 ) -> usize {
     graph
         .get(&node)
@@ -19,37 +18,18 @@ fn num_path(
             if next == "start" {
                 return 0;
             }
-            let mut next_clone = small.clone();
-            let mut next_second = second.clone();
+            let mut next_small = small.clone();
+            let mut next_allowed = twice_allowed;
             if next.chars().next().unwrap().is_lowercase() {
-                if !next_clone.contains_key(next) {
-                    next_clone.insert(next.to_string(), 0);
-                }
-                let val = next_clone.get_mut(next).unwrap();
-                if val == &mut 2 {
-                    return 0;
-                }
-                if val == &mut 1 {
-                    if !twice_allowed {
+                if next_small.contains(next) {
+                    if !next_allowed {
                         return 0;
                     }
-                    if let Some(x) = &second {
-                        if x != next {
-                            return 0;
-                        }
-                    } else {
-                        next_second = Some(next.to_string());
-                    }
+                    next_allowed = false;
                 }
-                *val += 1;
+                next_small.insert(next.to_string());
             }
-            num_path(
-                next.to_string(),
-                graph,
-                next_clone,
-                twice_allowed,
-                next_second,
-            )
+            num_path(next.to_string(), graph, next_small, next_allowed)
         })
         .sum()
 }
@@ -65,17 +45,17 @@ fn main() {
             let (start, end) = (s[0], s[1]);
             graph.entry(start.to_string()).or_insert_with(Vec::new);
             graph.entry(end.to_string()).or_insert_with(Vec::new);
-            graph
-                .get_mut(&start.to_string())
-                .unwrap()
-                .push(end.to_string());
-            graph
-                .get_mut(&end.to_string())
-                .unwrap()
-                .push(start.to_string());
+            graph.get_mut(start).unwrap().push(end.to_string());
+            if start != "start" && end != "end" {
+                graph.get_mut(end).unwrap().push(start.to_string());
+            }
         });
     println!(
         "{}",
-        num_path("start".to_string(), &graph, HashMap::new(), true, None)
+        num_path(String::from("start"), &graph, HashSet::new(), false)
+    );
+    println!(
+        "{}",
+        num_path(String::from("start"), &graph, HashSet::new(), true)
     );
 }
