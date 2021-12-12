@@ -41,12 +41,10 @@ fn get_flashes(octopodes: &mut [u32], steps: u32) -> u32 {
 
 fn get_simultaneous_flashes(octopodes: &mut [u32]) -> u32 {
     let mut iter = 1;
-    loop {
-        if do_step(octopodes) == 100 {
-            return iter;
-        }
+    while do_step(octopodes) != 100 {
         iter += 1;
     }
+    iter
 }
 
 fn main() {
