@@ -59,16 +59,6 @@ fn decode_next_instruction(ptr: &mut usize, instructions: &str, versions: &mut u
     do_op(packet_type, &acc)
 }
 
-fn decode_message(instructions: &str) -> (usize, usize) {
-    let mut ptr = 0;
-    let mut versions = 0;
-    let mut last = 0;
-    while ptr < instructions.len() - 7 {
-        last = decode_next_instruction(&mut ptr, instructions, &mut versions);
-    }
-    (versions, last)
-}
-
 fn main() {
     let instructions: String = fs::read_to_string("./input/16")
         .unwrap()
@@ -76,5 +66,12 @@ fn main() {
         .chars()
         .map(|c| format!("{:04b}", c.to_digit(16).unwrap()))
         .collect();
-    println!("{:?}", decode_message(instructions.as_str()));
+    let mut versions = 0;
+    println!(
+        "{:?}",
+        (
+            decode_next_instruction(&mut 0, instructions.as_str(), &mut versions),
+            versions
+        )
+    );
 }
